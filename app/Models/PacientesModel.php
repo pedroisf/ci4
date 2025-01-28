@@ -30,14 +30,26 @@ class PacientesModel extends Model
       $phoneFormat = $this->phoneFormat($search);
       $filterSex = $this->filterSex($search);
 
-      $query->groupStart()
-        ->like('id', $search, 'both')
-        ->orLike('nome', $search, 'both')
-        ->orLike('data_nascimento', $dataFormat, 'both')
-        ->orLike('sexo', $filterSex, 'both')
-        ->orLike('endereco', $search, 'both')
-        ->orLike('telefone', $phoneFormat, 'both')
-        ->groupEnd();
+      if (getenv('database_default_DBDriver') == 'MySQLi') {
+        $query->groupStart()
+          ->like('id', $search, 'both')
+          ->orLike('nome', $search, 'both')
+          ->orLike('data_nascimento', $dataFormat, 'both')
+          ->orLike('sexo', $filterSex, 'both')
+          ->orLike('endereco', $search, 'both')
+          ->orLike('telefone', $phoneFormat, 'both')
+          ->groupEnd();
+      } else {
+        $query->groupStart()
+          ->like('id::text', $search, 'both')
+          ->orLike('nome::text', $search, 'both')
+          ->orLike('data_nascimento::text', $dataFormat, 'both')
+          ->orLike('sexo::text', $filterSex, 'both')
+          ->orLike('endereco::text', $search, 'both')
+          ->orLike('telefone::text', $phoneFormat, 'both')
+          ->groupEnd();
+
+      }
     }
 
     $result['total']['filtrado'] = $query->countAllResults(false);
