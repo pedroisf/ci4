@@ -24,32 +24,32 @@ class Database extends Config
      *
      * @var array<string, mixed>
      */
-    public array $default = [
-        'DSN' => '',
-        'hostname' => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'database' => '',
-        'DBDriver' => 'MySQLi',
-        'DBPrefix' => '',
-        'pConnect' => false,
-        'DBDebug' => true,
-        'charset' => 'utf8mb4',
-        'DBCollat' => '',
-        'swapPre' => '',
-        'encrypt' => false,
-        'compress' => false,
-        'strictOn' => false,
-        'failover' => [],
-        'port' => 3306,
-        'numberNative' => false,
-        'foundRows' => false,
-        'dateFormat' => [
-            'date' => 'Y-m-d',
-            'datetime' => 'Y-m-d H:i:s',
-            'time' => 'H:i:s',
-        ],
-    ];
+    // public array $default = [
+    //     'DSN' => '',
+    //     'hostname' => 'localhost',
+    //     'username' => 'root',
+    //     'password' => '',
+    //     'database' => '',
+    //     'DBDriver' => 'MySQLi',
+    //     'DBPrefix' => '',
+    //     'pConnect' => false,
+    //     'DBDebug' => true,
+    //     'charset' => 'utf8mb4',
+    //     'DBCollat' => '',
+    //     'swapPre' => '',
+    //     'encrypt' => false,
+    //     'compress' => false,
+    //     'strictOn' => false,
+    //     'failover' => [],
+    //     'port' => 3306,
+    //     'numberNative' => false,
+    //     'foundRows' => false,
+    //     'dateFormat' => [
+    //         'date' => 'Y-m-d',
+    //         'datetime' => 'Y-m-d H:i:s',
+    //         'time' => 'H:i:s',
+    //     ],
+    // ];
 
     //    /**
     //     * Sample database connection for SQLite3.
@@ -199,28 +199,58 @@ class Database extends Config
         if (ENVIRONMENT === 'testing') {
             $this->defaultGroup = 'tests';
         } else {
-            $this->default = [
-                'DSN' => '',
-                'hostname' => getenv('database.default.hostname'),
-                'username' => getenv('database.default.username'),
-                'password' => getenv('database.default.password'),
-                'database' => getenv('database.default.database'),
-                'schema' => 'public',
-                'DBDriver' => getenv('database.default.DBDriver'),
-                'DBPrefix' => getenv('database.default.DBPrefix'),
-                'pConnect' => false,
-                'DBDebug' => true,
-                'charset' => 'utf8',
-                'swapPre' => '',
-                'failover' => [],
-                'port' => getenv('database.default.port'),
-                'dateFormat' => [
-                    'date' => 'Y-m-d',
-                    'datetime' => 'Y-m-d H:i:s',
-                    'time' => 'H:i:s',
-                ],
-            ];
-    
+            if (getenv('database_default_DBDriver') == 'MySQLi') {
+                $this->default = [
+                    'DSN' => '',
+                    'hostname' => getenv('database_default_hostname'),
+                    'username' => getenv('database_default_username'),
+                    'password' => getenv('database_default_password'),
+                    'database' => getenv('database_default_database'),
+                    'DBDriver' => getenv('database_default_DBDriver'),
+                    'DBPrefix' => '',
+                    'pConnect' => false,
+                    'DBDebug' => true,
+                    'charset' => 'utf8mb4',
+                    'DBCollat' => 'utf8mb4_general_ci',
+                    'swapPre' => '',
+                    'encrypt' => false,
+                    'compress' => false,
+                    'strictOn' => false,
+                    'failover' => [],
+                    'port' => (int) getenv('database_default_port'),
+                    'numberNative' => false,
+                    'foundRows' => false,
+                    'dateFormat' => [
+                        'date' => 'Y-m-d',
+                        'datetime' => 'Y-m-d H:i:s',
+                        'time' => 'H:i:s',
+                    ],
+                ];
+
+            } else {
+                $this->default = [
+                    'DSN' => '',
+                    'hostname' => getenv('database_default_hostname'),
+                    'username' => getenv('database_default_username'),
+                    'password' => getenv('database_default_password'),
+                    'database' => getenv('database_default_database'),
+                    'schema' => 'public',
+                    'DBDriver' => getenv('database_default_DBDriver'),
+                    'DBPrefix' => '',
+                    'pConnect' => false,
+                    'DBDebug' => true,
+                    'charset' => 'utf8',
+                    'swapPre' => '',
+                    'failover' => [],
+                    'port' => (int) getenv('database_default_port'),
+                    'dateFormat' => [
+                        'date' => 'Y-m-d',
+                        'datetime' => 'Y-m-d H:i:s',
+                        'time' => 'H:i:s',
+                    ],
+                ];
+            }
+
         }
     }
 }
