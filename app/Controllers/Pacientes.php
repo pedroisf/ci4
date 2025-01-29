@@ -65,23 +65,33 @@ class Pacientes extends BaseController
             $file = $_FILES['arquivo_csv']['tmp_name'];
 
             if (($csv = fopen($file, 'r')) !== FALSE) {
+
+                $success = true;
                 $dados = [];
                 $indice = [];
+                $lin_err = [];
+                $col_err = [];
+                $lin_atual = 0;
 
                 while (($linha = fgetcsv($csv, 1000, ',')) !== FALSE) {
+                    $lin_atual++;
                     if (empty($indice)) {
                         $indice = $linha;
                         continue;
                     }
 
                     $rows = [];
-                    foreach ($indice as $coluna => $nome) {
-                        if (isset($linha[$coluna])) {
-                            $rows[$nome] = $linha[$coluna];
+                    foreach ($indice as $coluna => $valor) {
+                        if (isset($linha[$coluna]) && !empty($linha[$coluna])) {
+                            $rows[$valor] = $linha[$coluna];
                         } else {
-                            $rows[$nome] = null;
+                            $success = false;
+                            $col_err[] = $indice[$coluna];
+                            $lin_err[] = $lin_atual;
                         }
                     }
+
+
 
                     if (isset($rows) && isset($rows['id'])) {
                         unset($rows['id']);
@@ -89,16 +99,34 @@ class Pacientes extends BaseController
 
                     $dados[] = $rows;
                 }
-
                 fclose($csv);
 
-                $this->generic->importDataCSV($this->table, $dados);
+                if ($success) {
+                    $import = $this->generic->importDataCSV($this->table, $dados);
 
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'Arquivo processado com sucesso!',
-                    'data' => $dados
-                ]);
+                    if ($import) {
+                        echo json_encode([
+                            'success' => true,
+                            'message' => "$import registros processados com sucesso!",
+                            'data' => $dados
+                        ]);
+                    } else {
+                        echo json_encode([
+                            'success' => false,
+                            'message' => "O valor dos campos da importação possui valores invalidos!"
+                        ]);
+                    }
+                } else {
+                    $linha = implode(', ', $lin_err);
+                    $coluna = implode(', ', $col_err);
+
+                    echo json_encode([
+                        'warning' => true,
+                        'message' => "Nenhum registro foi processado, pois a(s) linha(s) $linha possuem campo(s) obrigatório(s) que não foram preenchidos."
+                    ]);
+                }
+
+
             } else {
                 echo json_encode([
                     'success' => false,

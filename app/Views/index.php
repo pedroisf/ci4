@@ -423,13 +423,23 @@
                                 }).showToast();
                             }
                         } else {
-                            Toastify({
-                                text: res.message,
-                                className: "error",
-                                duration: 4000, style: {
-                                    background: "linear-gradient(to right, #B71C1C, #D32F2F)",
-                                }
-                            }).showToast();
+                            if (res.warning) {
+                                Toastify({
+                                    text: res.message,
+                                    className: "warning",
+                                    duration: 5000, style: {
+                                        background: "linear-gradient(to right, #F76A00, #F59220)",
+                                    }
+                                }).showToast();
+                            } else {
+                                Toastify({
+                                    text: res.message,
+                                    className: "error",
+                                    duration: 4000, style: {
+                                        background: "linear-gradient(to right, #B71C1C, #D32F2F)",
+                                    }
+                                }).showToast();
+                            }
                         }
                     },
                     error: function (error) {

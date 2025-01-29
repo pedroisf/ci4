@@ -21,6 +21,7 @@ class PacientesModel extends Model
   public function get($search = null, $export = false)
   {
     $db = \Config\Database::connect();
+    $driver = getenv('database_default_DBDriver');
     $query = $db->table($this->table);
 
     $result['total']['geral'] = $query->countAllResults(false);
@@ -30,20 +31,25 @@ class PacientesModel extends Model
       $phoneFormat = $this->phoneFormat($search);
       $filterSex = $this->filterSex($search);
 
-      if (is_int($search)) {
+      if ($driver === 'Postgre') {
+        $query->groupStart()
+          ->like('CAST(id AS text)', $search, 'both')
+          ->orLike('CAST(telefone AS text)', $phoneFormat, 'both')
+          ->orLike('nome', $search, 'both')
+          ->orLike('to_char(data_nascimento, "YYYY-MM-DD")', $dataFormat, 'both')
+          ->orLike('sexo', $filterSex, 'both')
+          ->orLike('endereco', $search, 'both')
+          ->groupEnd();
+      } elseif ($driver === 'MySQLi') {
         $query->groupStart()
           ->like('id', $search, 'both')
           ->orLike('telefone', $phoneFormat, 'both')
-          ->groupEnd();
-      } else {
-        $query->groupStart()
-          ->like('nome', $search, 'both')
+          ->orLike('nome', $search, 'both')
           ->orLike('data_nascimento', $dataFormat, 'both')
           ->orLike('sexo', $filterSex, 'both')
           ->orLike('endereco', $search, 'both')
           ->groupEnd();
       }
-
     }
 
     $result['total']['filtrado'] = $query->countAllResults(false);
