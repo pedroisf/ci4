@@ -308,26 +308,17 @@
 
         var topDiv = document.querySelector('.top');
 
-        var reloading = `   <div class="d-inline h-100 ms-1 d-none d-sm-block">
+        var reloading = `   <div class="d-inline h-100 ms-1">
                                         <button class="btn btn-light border opacity-75 h-100" id="reloadButton">
                                             <i class="fa-solid fa-rotate-right"></i>
                                         </button>
                                     </div>
                                 `;
-        var reloadingmobile = `   <div class="d-inline h-100 ms-1 d-block d-sm-none">
-                                        <button class="btn btn-light border opacity-75 h-100" id="reloadButton">
-                                            <i class="fa-solid fa-rotate-right"></i>
-                                        </button>
-                                    </div>
-                                `;
-        var searching = `   <div class="d-inline h-100 me-1 d-none d-sm-block">
+        var searching = `   <div class="d-inline h-100 me-1">
                                         <input type="text" class="form-control bg-muted h-100" id="customSearchInput" placeholder="🔍︎  Pesquisar">
                                     </div>
                                 `;
-        var searchingmobile = `   <div class="h-100 w-100 me-1 d-sm-none">
-                                        <input type="text" class="form-control bg-muted h-100" id="customSearchInput" placeholder="🔍︎  Pesquisar">
-                                    </div>
-                                `;
+
         var exportCSV = `<a href="<?= base_url('Pacientes/pesquisa?exportCSV=1') ?>"
                                     class="btn btn-light border h-100 border-muted d-none d-sm-block" >
                                         <span class="opacity-75">
@@ -338,7 +329,7 @@
         var exportCSVmobile = `<a href="<?= base_url('Pacientes/pesquisa?exportCSV=1') ?>"
                                     class="btn btn-light border h-100 border-muted d-block d-sm-none" >
                                         <span class="opacity-75">
-                                            <i class="fa-solid fa-download me-1"></i>
+                                            <i class="fa-solid fa-download"></i>
                                         </span>
                                  </a>`;
 
@@ -348,11 +339,9 @@
         $(".dataTables_info").appendTo(".top");
 
         topDiv.insertAdjacentHTML('beforeend', searching);
-        topDiv.insertAdjacentHTML('beforeend', searchingmobile);
         topDiv.insertAdjacentHTML('beforeend', exportCSV);
         topDiv.insertAdjacentHTML('beforeend', exportCSVmobile);
         topDiv.insertAdjacentHTML('beforeend', reloading);
-        topDiv.insertAdjacentHTML('beforeend', reloadingmobile);
         $('.top').css('height', '40px');
 
         $('#customSearchInput').keyup($.debounce(500, function (e) {
