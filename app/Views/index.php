@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datatable</title>
+    <title>Atendimento Online</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -62,16 +62,48 @@
 
         <div class="container" id="mainContent">
             <div class="card border-0">
-                <div class="card-body">
-                    <div class="row px-0 d-flex justify-content-bottom align-items-end mb-4">
-                        <div class="col-8">
+                <div class="card-body pt-0 px-0 mt-0 text-center mb-4">
+                    <!-- desktop -->
+                    <div class="row  d-flex justify-content-between mb-4">
+                        <div class="col-8 d-none d-sm-block text-start">
                             Gerenciamento de<br>
-                            <span class="h3 fw-bold">
+                            <span class="h3 fw-bold">Pacientes</span>
+                        </div>
+                        <div class="col-4 d-grid gap-2 d-md-flex justify-content-end align-items-end" id="btns">
+                            <div class="d-none d-sm-block">
+                                <label type="button" name="arquivo_csv"
+                                    class="btn btn-light border border-dark d-inline csv" for="arquivo_csv">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2">
+                                            <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                            <path
+                                                d="M5 12V5a2 2 0 0 1 2-2h7l5 5v4M7 16.5a1.5 1.5 0 0 0-3 0v3a1.5 1.5 0 0 0 3 0m3 .75c0 .414.336.75.75.75H12a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1h-1a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1h1.25a.75.75 0 0 1 .75.75m3-.75l2 6l2-6" />
+                                        </g>
+                                    </svg>
+                                    Importar CSV
+                                </label>
+                                <input class="form-control" type="file" id="arquivo_csv"
+                                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                                    onchange="importar()" hidden>
+                                <button type="button" class="btn btn-primary border d-inline registro"
+                                    onclick="novoRegistro()">
+                                    <i class="fa-solid fa-plus me-1"></i> Novo registro
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- mobile -->
+                    <div class="row d-sm-none d-flex justify-content-bottom mb-5">
+                        <div class="col-12 mb-4">
+                            Gerenciamento de<br>
+                            <span class="display-5 fw-bold">
                                 Pacientes
                             </span>
                         </div>
-                        <div class="col-4 d-grid gap-2 d-md-flex justify-content-md-end" id="btns">
-
+                        <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end" id="btns">
                             <label type="button" name="arquivo_csv"
                                 class="btn btn-light border border-dark d-inline csv" for="arquivo_csv">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -96,11 +128,10 @@
                         </div>
                     </div>
 
-                    <div id="formView" class="mt-5 mb-5">
-                        <form method="post" class="card border-0 needs-validation" novalidate id="form-novo">
+                    <div id="formView" class="mt-4 mb-4">
+                        <form method="post" class="card border p-3 needs-validation" novalidate id="form-novo">
 
-                            <h5>Novo registro</h5>
-                            <hr class="opacity-25 mt-0 pt-0">
+                            <span class="bg-light h4 fw-bold rounded-1 border py-2 mb-2">Novo registro</span>
                             <div class="row g-3">
                                 <div class="col-sm-5">
                                     <label class="label-control fw-bold" for="nome">Nome</label>
@@ -171,7 +202,7 @@
 
                                 <div class="mt-3">
                                     <div class="text-end">
-                                        <button required type="button" class="btn btn-light border me-2"
+                                        <button required type="button" class="btn btn-secondary border me-2"
                                             onclick="novoRegistro('voltar')">Fechar</button>
                                         <button class="btn btn-primary">Salvar</button>
                                     </div>
@@ -182,7 +213,7 @@
                 </div>
                 <div class="table-responsive">
                     <table id="myTable"
-                        class="table table-light table-hover table-striped border border-muted rounded-3 mt-5"
+                        class="table z-1 table-light table-hover table-striped border border-muted rounded-3 text-start mt-5"
                         style="width:100%">
 
                         <thead class="border border-5">
@@ -201,248 +232,171 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Scripts -->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-        <script type="text/javascript"
-            src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
-        <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <!-- Scripts -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-        <script type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
 
-        <script defer>
-            var table = $('#myTable').DataTable({
-                ajax: {
-                    url: '<?= base_url('Pacientes/pesquisa') ?>',
-                    type: 'GET',
-                    dataSrc: function (json) {
-                        return json.data;
-                    }
-                },
-                columnDefs: [
-                    { "orderable": false, "targets": 0 }
-                ],
-                columns: [
-                    { data: 'actions', ordering: false },
-                    { data: 'id' },
-                    { data: 'nome' },
-                    { data: 'data_nascimento' },
-                    { data: 'sexo' },
-                    { data: 'endereco' },
-                    { data: 'telefone' }
-                ],
-                order: [[1, 'asc']],
-                serverSide: true,
-                processing: true,
-                ordering: true,
-                bLengthChange: false,
-                dom: '<"top d-flex bd-highlight">rt<"bottom"ip><"clear">',
-                language: {
-                    "sProcessing": "Processando...",
-                    "sLengthMenu": "Exibir _MENU_ registros por página",
-                    "sZeroRecords": "Nenhum resultado encontrado",
-                    "sEmptyTable": "Nenhum resultado encontrado",
-                    "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando 0 a 0 de 0 registros",
-                    "sInfoFiltered": "",
-                    "sSearch": "Buscar:",
-                    "sLoadingRecords": "Carregando...",
-                    "oPaginate": {
-                        "sFirst": "Primeiro",
-                        "sLast": "Último",
-                        "sNext": "❯",
-                        "sPrevious": "❮"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Ativar para ordenar a coluna de maneira ascendente",
-                        "sSortDescending": ": Ativar para ordenar a coluna de maneira descendente"
-                    }
+    <script defer>
+        var table = $('#myTable').DataTable({
+            ajax: {
+                url: '<?= base_url('Pacientes/pesquisa') ?>',
+                type: 'GET',
+                dataSrc: function (json) {
+                    return json.data;
                 }
-            });
+            },
+            columnDefs: [
+                { "orderable": false, "targets": 0 }
+            ],
+            columns: [
+                { data: 'actions', ordering: false },
+                { data: 'id' },
+                { data: 'nome' },
+                { data: 'data_nascimento' },
+                { data: 'sexo' },
+                { data: 'endereco' },
+                { data: 'telefone' }
+            ],
+            order: [[1, 'asc']],
+            serverSide: true,
+            processing: true,
+            ordering: true,
+            bLengthChange: false,
+            dom: '<"top d-flex bd-highlight">rt<"bottom"ip><"clear">',
+            language: {
+                "sProcessing": "Processando...",
+                "sLengthMenu": "Exibir _MENU_ registros por página",
+                "sZeroRecords": "Nenhum resultado encontrado",
+                "sEmptyTable": "Nenhum resultado encontrado",
+                "sInfo": "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 a 0 de 0 registros",
+                "sInfoFiltered": "",
+                "sSearch": "Buscar:",
+                "sLoadingRecords": "Carregando...",
+                "oPaginate": {
+                    "sFirst": "Primeiro",
+                    "sLast": "Último",
+                    "sNext": "❯",
+                    "sPrevious": "❮"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ativar para ordenar a coluna de maneira ascendente",
+                    "sSortDescending": ": Ativar para ordenar a coluna de maneira descendente"
+                }
+            }
+        });
 
-            $('.dt-button').removeClass('dt-button');
-            $('.dt-buttons').removeClass('dt-buttons').addClass('h-100 d-inline');
+        $('.dt-button').removeClass('dt-button');
+        $('.dt-buttons').removeClass('dt-buttons').addClass('h-100 d-inline');
 
-            var topDiv = document.querySelector('.top');
+        var topDiv = document.querySelector('.top');
 
-            var reloading = `   <div class="d-inline h-100 ms-1">
+        var reloading = `   <div class="d-inline h-100 ms-1 d-none d-sm-block">
                                         <button class="btn btn-light border opacity-75 h-100" id="reloadButton">
                                             <i class="fa-solid fa-rotate-right"></i>
                                         </button>
                                     </div>
                                 `;
-            var searching = `   <div class="d-inline h-100 me-1">
+        var reloadingmobile = `   <div class="d-inline h-100 ms-1 d-block d-sm-none">
+                                        <button class="btn btn-light border opacity-75 h-100" id="reloadButton">
+                                            <i class="fa-solid fa-rotate-right"></i>
+                                        </button>
+                                    </div>
+                                `;
+        var searching = `   <div class="d-inline h-100 me-1 d-none d-sm-block">
                                         <input type="text" class="form-control bg-muted h-100" id="customSearchInput" placeholder="🔍︎  Pesquisar">
                                     </div>
                                 `;
-            var exportCSV = `<a href="<?= base_url('Pacientes/pesquisa?exportCSV=1') ?>"
-                                    class="btn btn-light border h-100 border-muted" >
+        var searchingmobile = `   <div class="h-100 w-100 me-1 d-sm-none">
+                                        <input type="text" class="form-control bg-muted h-100" id="customSearchInput" placeholder="🔍︎  Pesquisar">
+                                    </div>
+                                `;
+        var exportCSV = `<a href="<?= base_url('Pacientes/pesquisa?exportCSV=1') ?>"
+                                    class="btn btn-light border h-100 border-muted d-none d-sm-block" >
                                         <span class="opacity-75">
                                             <i class="fa-solid fa-download me-1"></i> 
                                             Exportar CSV
                                         </span>
                                  </a>`;
+        var exportCSVmobile = `<a href="<?= base_url('Pacientes/pesquisa?exportCSV=1') ?>"
+                                    class="btn btn-light border h-100 border-muted d-block d-sm-none" >
+                                        <span class="opacity-75">
+                                            <i class="fa-solid fa-download me-1"></i>
+                                        </span>
+                                 </a>`;
 
-            $("#myTable_info").addClass("me-auto p-2 bd-highlight");
-            $("#myTable_paginate").addClass("mt-1");
-            $(".dataTables_info").appendTo(".top");
+        $("#myTable_info").addClass("me-auto p-2 bd-highlight d-none d-sm-block");
+        $("#myTable_paginate").addClass("mt-1");
+        $("#dataTables_processing").addClass("z-3");
+        $(".dataTables_info").appendTo(".top");
 
-            topDiv.insertAdjacentHTML('beforeend', searching);
-            topDiv.insertAdjacentHTML('beforeend', exportCSV);
-            topDiv.insertAdjacentHTML('beforeend', reloading);
-            $('.top').css('height', '40px');
+        topDiv.insertAdjacentHTML('beforeend', searching);
+        topDiv.insertAdjacentHTML('beforeend', searchingmobile);
+        topDiv.insertAdjacentHTML('beforeend', exportCSV);
+        topDiv.insertAdjacentHTML('beforeend', exportCSVmobile);
+        topDiv.insertAdjacentHTML('beforeend', reloading);
+        topDiv.insertAdjacentHTML('beforeend', reloadingmobile);
+        $('.top').css('height', '40px');
 
-            $('#customSearchInput').keyup($.debounce(500, function (e) {
-                table.search(this.value).draw();
-            }));
+        $('#customSearchInput').keyup($.debounce(500, function (e) {
+            table.search(this.value).draw();
+        }));
 
-            $('#reloadButton').on('click', function () {
-                table.ajax.reload();
-            });
+        $('#reloadButton').on('click', function () {
+            table.ajax.reload();
+        });
 
-            $('#form-novo').on('submit', function (event) {
-                event.preventDefault();
+        $('#form-novo').on('submit', function (event) {
+            event.preventDefault();
 
-                if (validar()) {
-                    var formData = $(this).serialize();
+            if (validar()) {
+                var formData = $(this).serialize();
 
-                    $.ajax({
-                        type: 'POST',
-                        url: '<?= base_url('Pacientes/save') ?>',
-                        data: formData,
-                        success: function (response) {
-                            res = JSON.parse(response)
-                            console.log(res)
-                            console.log(response)
-                            if (res.success) {
-                                novoRegistro('voltar')
-                                table.ajax.reload()
-                                Toastify({
-                                    text: res.message,
-                                    className: "success",
-                                    duration: 4000,
-                                    style: {
-                                        background: "linear-gradient(to right, #00b09b,#00aab0)",
-                                    }
-                                }).showToast();
-                            } else {
-                                Toastify({
-                                    text: res.message,
-                                    className: "error",
-                                    duration: 4000,
-                                    style: {
-                                        background: "linear-gradient(to right, #B71C1C, #D32F2F)",
-                                    }
-                                }).showToast();
-                            }
-                        }, error: function (error) {
+                $.ajax({
+                    type: 'POST',
+                    url: '<?= base_url('Pacientes/save') ?>',
+                    data: formData,
+                    success: function (response) {
+                        res = JSON.parse(response)
+                        if (res.success) {
+                            novoRegistro('voltar')
+                            table.ajax.reload()
                             Toastify({
-                                text: 'Ocorreu um erro na requisição.',
+                                text: res.message,
+                                className: "success",
+                                duration: 4000,
+                                style: {
+                                    background: "linear-gradient(to right, #00b09b,#00aab0)",
+                                }
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: res.message,
                                 className: "error",
-                                duration: 4000, style: {
+                                duration: 4000,
+                                style: {
                                     background: "linear-gradient(to right, #B71C1C, #D32F2F)",
                                 }
                             }).showToast();
                         }
-
-                    });
-                }
-            });
-
-            $('.telefone').mask('(99) 9.9999-9999');
-
-            // Validação front
-            function validar() {
-                const form = document.querySelector('#form-novo');
-                if (!form.checkValidity()) {
-                    Toastify({
-                        text: 'Existem campos obrigatórios que não foram preenchidos!',
-                        duration: 4000,
-                        style: {
-                            background: "linear-gradient(to right, #B71C1C, #D32F2F)",
-                        }
-                    }).showToast();
-                    form.classList.add('was-validated');
-                    return false;
-                }
-
-                return true;
-            }
-
-            function importar() {
-                let csv = $('#arquivo_csv').prop('files')[0];
-
-                if (!csv) {
-                    alert('Por gentileza, selecione um arquivo CSV.');
-                    return;
-                }
-
-                const formData = new FormData();
-                formData.append('arquivo_csv', csv);
-
-                $.ajax({
-                    url: '<?= base_url('Pacientes/importar') ?>',
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (response) {
-                        const res = JSON.parse(response);
-                        if (res.success) {
-                            if (res.data) {
-                                table.ajax.reload()
-
-                                Toastify({
-                                    text: res.message,
-                                    className: "success",
-                                    duration: 4000, style: {
-                                        background: "linear-gradient(to right, #00b09b,#00aab0)",
-                                    }
-                                }).showToast();
-                                table.ajax.reload();
-                            } else {
-                                Toastify({
-                                    text: res.message,
-                                    className: "error",
-                                    duration: 4000, style: {
-                                        background: "linear-gradient(to right, #B71C1C, #D32F2F)",
-                                    }
-                                }).showToast();
-                            }
-                        } else {
-                            if (res.warning) {
-                                Toastify({
-                                    text: res.message,
-                                    className: "warning",
-                                    duration: 5000, style: {
-                                        background: "linear-gradient(to right, #F76A00, #F59220)",
-                                    }
-                                }).showToast();
-                            } else {
-                                Toastify({
-                                    text: res.message,
-                                    className: "error",
-                                    duration: 4000, style: {
-                                        background: "linear-gradient(to right, #B71C1C, #D32F2F)",
-                                    }
-                                }).showToast();
-                            }
-                        }
-                    },
-                    error: function (error) {
+                    }, error: function (error) {
                         Toastify({
                             text: 'Ocorreu um erro na requisição.',
                             className: "error",
@@ -452,36 +406,128 @@
                         }).showToast();
                     }
 
-                })
+                });
+            }
+        });
 
-                $('#arquivo_csv').val('')
+        $('.telefone').mask('(99) 9.9999-9999');
 
+        // Validação front
+        function validar() {
+            const form = document.querySelector('#form-novo');
+            if (!form.checkValidity()) {
+                Toastify({
+                    text: 'Existem campos obrigatórios que não foram preenchidos!',
+                    duration: 4000,
+                    style: {
+                        background: "linear-gradient(to right, #B71C1C, #D32F2F)",
+                    }
+                }).showToast();
+                form.classList.add('was-validated');
+                return false;
             }
 
-            $('#formView').hide();
-            function novoRegistro(tipo = '') {
-                if (tipo === 'voltar') {
-                    $('#formView').slideToggle('slow');
-                    $('#btns').removeClass('opacity-75');
-                    $('.csv').removeClass('disabled');
-                    $('.registro').removeClass('disabled');
-                    $('#form-novo').removeClass('was-validated');
-                    $('#form-novo')[0].reset();
-                } else {
-                    setTimeout(() => {
-                        $('#btns').addClass('opacity-75');
-                        $('.csv').addClass('disabled');
-                        $('.registro').addClass('disabled');
-                        $('#formView').slideToggle('slow');
-                        $('#form-novo').removeClass('was-validated');
-                        $('#form-novo')[0].reset();
-                    }, 500);
+            return true;
+        }
+
+        function importar() {
+            let csv = $('#arquivo_csv').prop('files')[0];
+
+            if (!csv) {
+                alert('Por gentileza, selecione um arquivo CSV.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('arquivo_csv', csv);
+
+            $.ajax({
+                url: '<?= base_url('Pacientes/importar') ?>',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    const res = JSON.parse(response);
+                    if (res.success) {
+                        if (res.data) {
+                            table.ajax.reload()
+
+                            Toastify({
+                                text: res.message,
+                                className: "success",
+                                duration: 4000, style: {
+                                    background: "linear-gradient(to right, #00b09b,#00aab0)",
+                                }
+                            }).showToast();
+                            table.ajax.reload();
+                        } else {
+                            Toastify({
+                                text: res.message,
+                                className: "error",
+                                duration: 4000, style: {
+                                    background: "linear-gradient(to right, #B71C1C, #D32F2F)",
+                                }
+                            }).showToast();
+                        }
+                    } else {
+                        if (res.warning) {
+                            Toastify({
+                                text: res.message,
+                                className: "warning",
+                                duration: 5000, style: {
+                                    background: "linear-gradient(to right, #F76A00, #F59220)",
+                                }
+                            }).showToast();
+                        } else {
+                            Toastify({
+                                text: res.message,
+                                className: "error",
+                                duration: 4000, style: {
+                                    background: "linear-gradient(to right, #B71C1C, #D32F2F)",
+                                }
+                            }).showToast();
+                        }
+                    }
+                },
+                error: function (error) {
+                    Toastify({
+                        text: 'Ocorreu um erro na requisição.',
+                        className: "error",
+                        duration: 4000, style: {
+                            background: "linear-gradient(to right, #B71C1C, #D32F2F)",
+                        }
+                    }).showToast();
                 }
 
+            })
+
+            $('#arquivo_csv').val('')
+
+        }
+
+        $('#formView').hide();
+        function novoRegistro(tipo = '') {
+            if (tipo === 'voltar') {
+                $('#formView').slideToggle('slow');
+                $('#btns').removeClass('opacity-75');
+                $('.csv').removeClass('disabled');
+                $('.registro').removeClass('disabled');
+                $('#form-novo').removeClass('was-validated');
+                $('#form-novo')[0].reset();
+            } else {
+                setTimeout(() => {
+                    $('#btns').addClass('opacity-75');
+                    $('.csv').addClass('disabled');
+                    $('.registro').addClass('disabled');
+                    $('#formView').slideToggle('slow');
+                    $('#form-novo').removeClass('was-validated');
+                    $('#form-novo')[0].reset();
+                }, 500);
             }
-        </script>
-    </div>
-    </div>
+
+        }
+    </script>
 </body>
 
 </html>
