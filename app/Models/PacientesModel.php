@@ -36,7 +36,7 @@ class PacientesModel extends Model
           ->like('CAST(id AS text)', $search, 'both')
           ->orLike('CAST(telefone AS text)', $phoneFormat, 'both')
           ->orLike('nome', $search, 'both')
-          ->orLike('to_char(data_nascimento, "YYYY-MM-DD")', $dataFormat, 'both')
+          ->orLike("to_char(data_nascimento, 'YYYY-MM-DD')", $dataFormat, 'both')
           ->orLike('sexo', $filterSex, 'both')
           ->orLike('endereco', $search, 'both')
           ->groupEnd();
@@ -106,8 +106,6 @@ class PacientesModel extends Model
     $find = ['(', ')', '.', '-', ' '];
     return str_replace($find, [''], $phone);
   }
-
-
 
   public function filterSex($search)
   {
