@@ -162,6 +162,10 @@ class Pacientes extends BaseController
         }
 
         $_POST['telefone'] = $this->sanitizer->chars($_POST['telefone']);
+        $_POST['usr_ins_cpa'] = 'admin';
+        $_POST['dta_ins_cpa'] = date('Y-m-d');
+        $_POST['usr_upd_cpa'] = 'admin';
+        $_POST['dta_upd_cpa'] = date('Y-m-d');
         $data = $this->sanitizer->post($_POST);
 
         if ($res = $this->generic->insertData($this->table, $data)) {
