@@ -87,11 +87,10 @@ class Datatable
    * @param array $columns Nomes das colunas que serão exportadas.
    * @param string $name Nome do documento, caso não informado, retornará: 'dados'.
    */
-  public function exportCSV($array, $columns, $name = '')
+  public function exportCSV($array, $columns, $name = 'dados')
   {
-    $name ? $name : 'dados.csv';
     header('Content-Type: text/csv');
-    header('Content-Disposition: attachment; filename="$name.csv"');
+    header("Content-Disposition: attachment; filename=$name.csv");
 
     $output = fopen('php://output', 'w');
 
