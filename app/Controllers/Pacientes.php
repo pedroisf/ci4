@@ -82,6 +82,7 @@ class Pacientes extends BaseController
 
                     $rows = [];
                     foreach ($indice as $coluna => $valor) {
+
                         if (isset($linha[$coluna]) && !empty($linha[$coluna])) {
                             $rows[$valor] = $linha[$coluna];
                         } else {
@@ -91,15 +92,22 @@ class Pacientes extends BaseController
                         }
                     }
 
-
-
                     if (isset($rows) && isset($rows['id'])) {
                         unset($rows['id']);
                     }
-
                     $dados[] = $rows;
+
+                    
                 }
                 fclose($csv);
+
+                $date = date('Y-m-d');
+                foreach ($dados as &$linha) {
+                    $linha['usr_ins_cpa'] = 'admin';
+                    $linha['dta_ins_cpa'] = $date;
+                    $linha['usr_upd_cpa'] = 'admin';
+                    $linha['dta_upd_cpa'] = $date;
+                }
 
                 if ($success) {
                     $import = $this->generic->importDataCSV($this->table, $dados);
